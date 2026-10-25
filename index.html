@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hussein Hashad · Mobile App Developer</title>
+<meta name="description" content="Hussein Hashad, mobile app developer (Flutter, iOS & Android) in Cairo. Customer apps, staff apps and the backend behind them: Dorey, EgyRuns, Sehety, Chicco.">
+<meta property="og:title" content="Hussein Hashad · Mobile App Developer">
+<meta property="og:description" content="Flutter apps for iOS & Android, with the staff apps and backend behind them.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hussein1808.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2315171B'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='30' font-weight='700' fill='%23F3F3EF' text-anchor='middle'%3EHH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: every product is a system of apps. Each case study is a spec sheet with three lanes (customer app · operations app · backend), then the hard problems solved. */
+:root{
+  --paper:#F3F3EF; --surface:#FFFFFF; --ink:#15171B; --muted:#5C6068; --line:#D9DAD3; --accent:#2F3BA8;
+  --dorey:#116B63; --runs:#B3152B; --sehety:#1F6FD1; --chicco:#7A2B33;
+  --tint:rgba(21,23,27,.04);
+  --display:"Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body:"Instrument Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#121316; --surface:#1A1C20; --ink:#ECECE6; --muted:#A1A4AB; --line:#2E3036; --accent:#8F99F2;
+  --dorey:#3FB3A7; --runs:#F0596B; --sehety:#6AA8F5; --chicco:#D9858D; --tint:rgba(255,255,255,.04); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#121316; --surface:#1A1C20; --ink:#ECECE6; --muted:#A1A4AB; --line:#2E3036; --accent:#8F99F2;
+  --dorey:#3FB3A7; --runs:#F0596B; --sehety:#6AA8F5; --chicco:#D9858D; --tint:rgba(255,255,255,.04); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+.wrap{max-width:1080px;margin:0 auto}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--mono)}
+section{padding-block:72px;border-top:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:220px 1fr;gap:32px;margin-bottom:40px}
+.sec-head h2{font-size:clamp(28px,4vw,40px);font-weight:700}
+.sec-head p{color:var(--muted);max-width:62ch;margin-top:12px}
+
+/* hero */
+.hero{padding-block:72px 56px}
+.hero .who{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;margin-bottom:28px}
+.hero h1{font-size:clamp(44px,8vw,96px);font-weight:800;letter-spacing:-.03em}
+.hero .role{font-family:var(--mono);font-size:14px;color:var(--muted)}
+.thesis{font-family:var(--display);font-weight:500;font-size:clamp(22px,3vw,32px);line-height:1.25;max-width:30ch;margin-top:8px}
+.thesis em{font-style:normal;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--accent) 22%,transparent) 62%)}
+.intro{max-width:64ch;color:var(--muted);margin-top:24px;font-size:17px}
+.ledger{display:grid;grid-template-columns:repeat(4,1fr);margin-top:48px;border:1px solid var(--line);background:var(--surface)}
+.ledger div{padding:18px 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ledger div:nth-child(4n){border-right:0}
+.ledger div:nth-last-child(-n+4){border-bottom:0}
+.ledger b{display:block;font-family:var(--display);font-size:clamp(26px,3.4vw,38px);font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.ledger span{font-size:13px;color:var(--muted);line-height:1.35;display:block;margin-top:4px}
+.footnote{font-size:12px;color:var(--muted);margin-top:10px;font-family:var(--mono)}
+
+/* product index table */
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
+th,td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td.p{font-family:var(--display);font-weight:700;font-size:17px;white-space:nowrap}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:1px}
+td a{text-decoration:none;color:inherit}
+td a:hover{text-decoration:underline}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.svc{background:var(--surface);padding:24px;display:flex;flex-direction:column;gap:10px}
+.svc h3{font-size:20px;font-weight:700}
+.svc p{color:var(--muted);font-size:15px}
+
+/* case studies */
+.case{padding-block:80px;border-top:1px solid var(--line)}
+.case-top{display:grid;grid-template-columns:220px 1fr;gap:32px}
+.case-id{display:flex;flex-direction:column;gap:14px}
+.swatch{width:44px;height:44px;border-radius:12px;background:var(--c)}
+.case-id .meta{display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.case h2{font-size:clamp(40px,6vw,64px);font-weight:800;letter-spacing:-.03em;color:var(--c)}
+.case .tag{font-family:var(--display);font-size:clamp(20px,2.4vw,26px);font-weight:500;line-height:1.25;margin-top:8px;max-width:34ch}
+.case .brief{color:var(--muted);max-width:66ch;margin-top:18px}
+.lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:40px;border:1px solid var(--line);background:var(--surface)}
+.lane{padding:22px 22px 24px;border-right:1px solid var(--line);min-width:0}
+.lane:last-child{border-right:0}
+.lane h4{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+.lane .sub{font-size:13px;color:var(--muted);margin-bottom:14px;display:block;line-height:1.4}
+@media (min-width:901px){.lane .sub{min-height:2.8em}}
+.lane ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:14.5px;line-height:1.45}
+.lane li{padding-left:16px;position:relative}
+.lane li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:2px;background:var(--c);opacity:.75}
+.hard{margin-top:40px;display:grid;grid-template-columns:220px 1fr;gap:32px}
+.hard .label{padding-top:4px}
+.problems{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 36px}
+.problems div{min-width:0}
+.problems h4{font-size:17px;font-weight:700;margin-bottom:6px}
+.problems p{font-size:15px;color:var(--muted)}
+.problems code,.lane code{font-family:var(--mono);font-size:.88em;background:var(--tint);padding:1px 5px;border-radius:4px;color:var(--ink);word-break:break-word}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:36px}
+.chip{font-family:var(--mono);font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink)}
+.chip.k{border-color:color-mix(in srgb,var(--c) 45%,var(--line));color:var(--c)}
+.status{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px dashed var(--muted);color:var(--ink);white-space:nowrap}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c,var(--accent))}
+td .status{margin-left:8px;vertical-align:2px;font-size:10px;padding:2px 8px}
+.shots{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap}
+.shots figure{margin:0;width:200px;max-width:100%}
+.shots img{display:block;width:100%;border-radius:22px;border:1px solid var(--line);background:var(--surface)}
+.shots figcaption{font-size:12px;color:var(--muted);margin-top:8px;font-family:var(--mono)}
+.hard .note{color:var(--muted);font-size:15px;max-width:66ch;min-width:0}
+.shots .note b{color:var(--ink);font-weight:600}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);background:var(--surface)}
+.step{padding:22px;border-right:1px solid var(--line);min-width:0}
+.step:last-child{border-right:0}
+.step .n{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.step h3{font-size:19px;font-weight:700;margin:8px 0}
+.step p{font-size:14px;color:var(--muted)}
+
+/* standards */
+.std{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line)}
+.std div{padding:18px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:180px 1fr;gap:18px;padding-right:24px}
+.std h4{font-size:16px;font-weight:700}
+.std p{font-size:14.5px;color:var(--muted)}
+
+/* stack */
+.stack{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.stack h4{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.stack ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:15px}
+
+/* contact */
+.contact{padding-block:80px 96px;border-top:1px solid var(--line)}
+.contact h2{font-size:clamp(34px,5vw,56px);font-weight:800;letter-spacing:-.02em;max-width:18ch}
+.contact p{color:var(--muted);max-width:60ch;margin-top:16px}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px}
+.cgrid>div{background:var(--surface);padding:20px;min-width:0}
+.cgrid>div{display:flex;flex-direction:column;gap:6px}
+.cgrid .v{font-family:var(--mono);font-size:15px;overflow-wrap:anywhere;user-select:all}
+.fill{color:var(--muted);border-bottom:1px dashed var(--muted)}
+.fit{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:40px}
+.fit h4{font-size:17px;font-weight:700;margin-bottom:10px}
+.fit ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px;display:flex;flex-direction:column;gap:6px}
+footer{padding-block:24px 40px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+@media (max-width:900px){
+  .sec-head,.case-top,.hard{grid-template-columns:1fr;gap:16px}
+  .lanes{grid-template-columns:1fr}
+  .lane{border-right:0;border-bottom:1px solid var(--line)}
+  .lane:last-child{border-bottom:0}
+  .services{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr}
+  .step{border-right:0;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:0}
+  .stack{grid-template-columns:1fr 1fr}
+  .std{grid-template-columns:1fr}
+  .cgrid{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .ledger{grid-template-columns:1fr 1fr}
+  .ledger div{border-right:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important}
+  .ledger div:nth-child(2n){border-right:0!important}
+  .ledger div:nth-last-child(-n+2){border-bottom:0!important}
+  .services,.problems,.fit{grid-template-columns:1fr}
+  .std div{grid-template-columns:1fr;gap:4px}
+  .shots figure{width:calc(50% - 8px)}
+  section,.case{padding-block:56px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .hero h1,.thesis,.intro{animation:rise .6s ease both}
+  .thesis{animation-delay:.08s}.intro{animation-delay:.16s}
+  @keyframes rise{from{transform:translateY(10px)}to{transform:none}}
+}
+.pdf{margin-top:20px;font-family:var(--mono);font-size:14px}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="who">
+    <h1>Hussein Hashad</h1>
+    <span class="role">Mobile App Developer · Flutter, iOS &amp; Android · Cairo, Egypt</span>
+  </div>
+  <p class="thesis">I build the app your customers use, <em>the app your staff run the business from</em>, and the backend that keeps both honest.</p>
+  <p class="intro">Four products, built end to end: a queuing and booking platform for barbershops and salons, a running-community platform with live GPS events, an online pharmacy with delivery, and a coffee-shop ordering system (the last two are still in progress). Each one is a full system — a customer app, an operations app, and a database with its own security rules, payments, push notifications and monitoring — built and maintained by me.</p>
+
+  <div class="ledger" aria-label="Portfolio in numbers">
+    <div><b>4</b><span>products, each a full system</span></div>
+    <div><b>7</b><span>Flutter apps for iOS &amp; Android</span></div>
+    <div><b>670k</b><span>lines of hand-written Dart</span></div>
+    <div><b>1,860+</b><span>commits since Aug 2023</span></div>
+    <div><b>246</b><span>Postgres migrations (schema, RLS, RPCs)</span></div>
+    <div><b>37</b><span>server functions (Supabase Edge + Firebase)</span></div>
+    <div><b>300</b><span>Flutter test files</span></div>
+    <div><b>79</b><span>database test suites (pgTAP)</span></div>
+  </div>
+  <p class="footnote">Counted from the four repositories on 25 Oct 2026. Generated code (*.g.dart, *.freezed.dart) excluded.</p>
+</header>
+
+<section id="work">
+  <div class="sec-head">
+    <span class="label">Selected work</span>
+    <div>
+      <h2>Four products, seven apps</h2>
+      <p>Every project has two audiences: the people who buy, book or run, and the people who serve them. I build for both, on one shared backend.</p>
+    </div>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Product</th><th>What it does</th><th>Apps</th><th>Backend</th><th>Since</th></tr></thead>
+      <tbody>
+        <tr><td class="p"><a href="#dorey"><span class="dot" style="background:var(--dorey)"></span>Dorey</a></td><td>Queuing &amp; booking that cuts waiting time at barbershops and salons</td><td>Customer · Business (owners, managers, receptionists, admins)</td><td>Supabase</td><td class="mono">2023</td></tr>
+        <tr><td class="p"><a href="#egyruns"><span class="dot" style="background:var(--runs)"></span>EgyRuns</a></td><td>Running community: clubs, events, GPS tracking, live race-day operations</td><td>Runner · Mgmt (organisers, staff, admins)</td><td>Supabase</td><td class="mono">2026</td></tr>
+        <tr><td class="p"><a href="#sehety"><span class="dot" style="background:var(--sehety)"></span>Sehety</a><span class="status" style="--c:var(--sehety)">In progress</span></td><td>Online pharmacy with prescriptions, wallet and delivery</td><td>Customer · Mgmt (admin, doctor, moderator, driver)</td><td>Supabase</td><td class="mono">2026</td></tr>
+        <tr><td class="p"><a href="#chicco"><span class="dot" style="background:var(--chicco)"></span>Chicco</a><span class="status" style="--c:var(--chicco)">In progress</span></td><td>Coffee-shop ordering, custom drinks, loyalty and delivery</td><td>One app, six roles (client, barista, delivery, manager, admin, partner)</td><td>Firebase</td><td class="mono">2025</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="services">
+  <div class="sec-head">
+    <span class="label">What I do</span>
+    <div>
+      <h2>The whole product, start to finish</h2>
+      <p>From the first screen to the server behind it and the store release, everything is built to work together, with no gaps between the app and the backend.</p>
+    </div>
+  </div>
+  <div class="services">
+    <div class="svc"><span class="label">Mobile</span><h3>Customer apps</h3><p>Flutter apps for iOS and Android with Arabic and English (right-to-left), maps, payments, push, home-screen widgets and iOS Live Activities.</p></div>
+    <div class="svc"><span class="label">Operations</span><h3>Staff &amp; admin apps</h3><p>Role-based apps for owners, managers, drivers and support: dashboards, catalog editing, scanning, approvals, exports to PDF, CSV and Excel.</p></div>
+    <div class="svc"><span class="label">Backend</span><h3>Database &amp; APIs</h3><p>Postgres on Supabase: schema, row-level security, server functions for anything involving money or stock, Edge Functions, scheduled jobs.</p></div>
+    <div class="svc"><span class="label">Transactions</span><h3>Orders &amp; payments</h3><p>Flows that survive bad networks and double taps: holds, idempotent writes, server-side price checks, wallets, loyalty points, promo codes.</p></div>
+    <div class="svc"><span class="label">Reliability</span><h3>Production readiness</h3><p>CI pipelines, force-update gates, feature flags, crash and error logging, uptime checks, service-level objectives and incident runbooks.</p></div>
+    <div class="svc"><span class="label">Migration</span><h3>Rescue &amp; re-platform</h3><p>Moving live apps between stacks: Firestore to Postgres, Provider to Riverpod, single repo to a shared-package monorepo, without breaking old app versions.</p></div>
+  </div>
+</section>
+
+<!-- DOREY -->
+<article class="case" id="dorey" style="--c:var(--dorey)">
+  <div class="case-top">
+    <div class="case-id">
+      <div class="swatch" aria-hidden="true"></div>
+      <div class="meta"><span>Personal care · Booking</span><span>Aug 2023 → present</span><span>937 commits</span></div>
+    </div>
+    <div>
+      <h2>Dorey</h2>
+      <p class="tag">A queuing app that gets people into the chair on time instead of into a waiting room.</p>
+      <p class="brief">Customers find a barbershop or salon, pick a service and a barber, and take a real slot that nobody else can take. Shops run their whole day from a separate business app: branches, staff schedules, the check-in desk, promotions and reports. Built generic enough to take on other service verticals later.</p>
+    </div>
+  </div>
+
+  <div class="lanes">
+    <div class="lane">
+      <h4>Customer app</h4><span class="sub">Browse, book, show up</span>
+      <ul>
+        <li>Quick search across shops, branches and services (fuzzy, trigram-indexed)</li>
+        <li>Slot picker that updates live as other people book, for one barber or "any barber"</li>
+        <li>Hold → confirm booking flow: the slot is held for 5 minutes while the customer finishes, with deposits wired in</li>
+        <li>Phone sign-in with OTP, bookmarks, booking history, reviews</li>
+        <li>Reminder an hour before, cancellation, and notices when the shop changes a booking</li>
+        <li>Arabic and English, including notification text</li>
+      </ul>
+    </div>
+    <div class="lane">
+      <h4>Business app</h4><span class="sub">Owners, branch managers, receptionists, admins</span>
+      <ul>
+        <li>Branches, barbers, services, prices and weekly schedules with breaks</li>
+        <li>Check-in desk and no-show handling, with a 24-hour undo</li>
+        <li>Editing a schedule previews which bookings it would cancel before saving</li>
+        <li>Promo codes per branch, shop clients, staff accounts with approval flow</li>
+        <li>Dashboards and deep analytics: bookings, revenue and finance over any date range</li>
+        <li>Bulk import of barbers and services from spreadsheets</li>
+      </ul>
+    </div>
+    <div class="lane">
+      <h4>Backend</h4><span class="sub">Supabase · 84 migrations · 5 Edge Functions</span>
+      <ul>
+        <li>Postgres with row-level security on every table; roles minted into the login token by a database hook</li>
+        <li>Booking server functions: <code>hold_booking</code>, <code>confirm_booking</code>, <code>create_booking</code></li>
+        <li>Push notifications through a queue with retries and a dead-letter list</li>
+        <li>Edge Functions for OTP, push, geocoding, storage clean-up</li>
+        <li>37 database test suites, run in CI</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="hard">
+    <span class="label">Problems solved</span>
+    <div class="problems">
+      <div><h4>No double bookings</h4><p>Two customers can never get the same barber at the same time, even if they tap at the very same second. The second person is told straight away that the time is taken.</p></div>
+      <div><h4>No duplicate bookings or charges</h4><p>If a customer's connection drops while booking and they try again, they get the booking they already made, never a second one.</p></div>
+      <div><h4>Staff can't overwrite each other</h4><p>If two managers edit the same shop at once, the second is warned instead of silently erasing the first person's changes.</p></div>
+      <div><h4>Safe schedule changes</h4><p>Before a shop changes its hours, the app shows exactly which bookings would be affected, and those customers are notified.</p></div>
+      <div><h4>Availability that is always current</h4><p>Open times update on screen as other people book, so customers don't choose a time that has already gone. It stays fast and affordable even when a busy shop has many people looking.</p></div>
+      <div><h4>Fixes without store delays</h4><p>A new feature can go to a few customers first, or be switched off within minutes, with no app store review. Errors are reported automatically, so issues are fixed before customers complain.</p></div>
+    </div>
+  </div>
+
+  <div class="chips">
+    <span class="chip k">Flutter</span><span class="chip k">Riverpod</span><span class="chip k">GoRouter</span><span class="chip k">Supabase</span><span class="chip">Postgres RLS</span><span class="chip">pgmq</span><span class="chip">pg_cron</span><span class="chip">Edge Functions (Deno)</span><span class="chip">FCM</span><span class="chip">Melos monorepo</span><span class="chip">slang i18n</span><span class="chip">GitHub Actions</span>
+  </div>
+</article>
+
+<!-- EGYRUNS -->
+<article class="case" id="egyruns" style="--c:var(--runs)">
+  <div class="case-top">
+    <div class="case-id">
+      <div class="swatch" aria-hidden="true"></div>
+      <div class="meta"><span>Sport · Community · Events</span><span>2026 → present</span><span>2 apps + shared packages</span></div>
+    </div>
+    <div>
+      <h2>EgyRuns</h2>
+      <p class="tag">Egypt's running scene in one app, and the race-day console that runs the events.</p>
+      <p class="brief">Runners discover clubs and events on a map, register, track runs with GPS and see their results. Club organisers and event staff use a second app to create runs, plan courses, check people in at the gate, manage sponsors and booths, and watch the event live.</p>
+    </div>
+  </div>
+
+  <div class="lanes">
+    <div class="lane">
+      <h4>Runner app</h4><span class="sub">Discover, register, run</span>
+      <ul>
+        <li>GPS run tracking that keeps going in the background, with an audio coach</li>
+        <li>iOS Live Activities and home-screen widgets during a run</li>
+        <li>Bluetooth heart-rate sensors, Apple Health / Health Connect import</li>
+        <li>Garmin and WHOOP account sync</li>
+        <li>Event map, clubs, friends, leaderboards, run analysis charts</li>
+        <li>3D course fly-through of the race route; route builder snapped to real paths</li>
+        <li>Event registration forms, QR ticket, results and podium</li>
+      </ul>
+    </div>
+    <div class="lane">
+      <h4>Mgmt app</h4><span class="sub">Club owners, event staff, admins</span>
+      <ul>
+        <li>Clubs, rosters, member bans, verified-club badge</li>
+        <li>Run creation with duplicate, route library, course records</li>
+        <li>Marshal / aid-station / photographer roles and aid-station markers</li>
+        <li>Live event console with a map of runners</li>
+        <li>Bib and gate QR scanning, sponsor booths and redemptions, kit pick-up</li>
+        <li>Money view, staff accounts, push notifications, PDF and CSV exports</li>
+      </ul>
+    </div>
+    <div class="lane">
+      <h4>Backend</h4><span class="sub">Supabase · 136 migrations · 13 Edge Functions</span>
+      <ul>
+        <li>RPCs for every former transaction; counters owned by triggers, not clients</li>
+        <li>OAuth start, callback, webhook and token refresh for wearables</li>
+        <li>Vendor tokens encrypted at rest (AES-GCM)</li>
+        <li>Heatmap export, analytics snapshots, ID-image clean-up</li>
+        <li>42 database test suites</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="hard">
+    <span class="label">Also built</span>
+    <p class="note">A 30-second vertical ad film for the runner app, made in code with Remotion and rendered to 1080×1920 or 4K from the same app screens.</p>
+  </div>
+
+  <div class="hard">
+    <span class="label">Problems solved</span>
+    <div class="problems">
+      <div><h4>Runs are never lost</h4><p>Tracking keeps going with the screen off or the phone in a pocket, and the run is saved as it happens, so a crash doesn't erase it.</p></div>
+      <div><h4>Works with runners' watches</h4><p>Runners link their Garmin or WHOOP once and their workouts appear on their own. Account details are kept securely on the server, never on the phone.</p></div>
+      <div><h4>Quick check-in on race day</h4><p>Staff scan bibs and tickets at the gate and at sponsor booths and get a clear yes or no on screen, built for crowds and weak mobile signal.</p></div>
+      <div><h4>See the race route before race day</h4><p>Runners can fly through the course in 3D, with the elevation, so they know what's coming.</p></div>
+      <div><h4>Organisers see the race live</h4><p>During an event, organisers follow runners on a live map from their phone.</p></div>
+      <div><h4>Course records kept automatically</h4><p>When a runner sets the best time on a club route, the record updates by itself, with nothing entered by hand.</p></div>
+    </div>
+  </div>
+
+  <div class="chips">
+    <span class="chip k">Flutter</span><span class="chip k">Riverpod</span><span class="chip k">Supabase</span><span class="chip k">Mapbox</span><span class="chip">OSRM</span><span class="chip">BLE</span><span class="chip">HealthKit / Health Connect</span><span class="chip">Live Activities</span><span class="chip">Garmin · WHOOP OAuth</span><span class="chip">pgTAP</span><span class="chip">Remotion</span><span class="chip">GitHub Actions</span>
+  </div>
+</article>
+
+<!-- SEHETY -->
+<article class="case" id="sehety" style="--c:var(--sehety)">
+  <div class="case-top">
+    <div class="case-id">
+      <div class="swatch" aria-hidden="true"></div>
+      <span class="status">In progress</span>
+      <div class="meta"><span>Health · E-commerce · Delivery</span><span>Feb 2026 → in development</span><span>Customer + 4 staff roles</span></div>
+    </div>
+    <div>
+      <h2>Sehety</h2>
+      <p class="tag">An online pharmacy that remembers your medication and brings it to your door.</p>
+      <p class="brief">Customers search or scan a medicine, upload a prescription, keep a list of their regular medication and a vault of medical documents, and pay by wallet or cash. Admins, doctors, moderators and drivers each sign in to one management app and see only their own tools.</p>
+    </div>
+  </div>
+
+  <div class="lanes">
+    <div class="lane">
+      <h4>Customer app</h4><span class="sub">Order, track, refill</span>
+      <ul>
+        <li>Search with popular searches, category grid, filters by price, brand and symptom</li>
+        <li>Barcode scanning, request an unavailable medicine, upload a prescription</li>
+        <li>"My medications" list for one-tap refills; product bundles</li>
+        <li>Cart suggestions from reorder history and frequently-bought-together</li>
+        <li>Checkout with live stock check, wallet or cash, map pin for the address</li>
+        <li>Live order tracking, cancellation, loyalty points convertible to wallet</li>
+        <li>Medical document vault with folders, PDF and image previews</li>
+      </ul>
+    </div>
+    <div class="lane">
+      <h4>Mgmt app</h4><span class="sub">Admin · doctor · moderator · driver</span>
+      <ul>
+        <li>"Needs attention" dashboard, order pipeline with sound alerts for new orders</li>
+        <li>Catalog: medications, categories, manufacturers, suppliers, units, Excel import</li>
+        <li>Home-screen builder, ads, curated popular searches, bundles</li>
+        <li>Wallets with audited balance adjustments, promo codes, best sellers, reports</li>
+        <li>Driver shifts and a driver order view; doctor and moderator dashboards</li>
+        <li>Role management with a gate that sends each person to their own area</li>
+      </ul>
+    </div>
+    <div class="lane">
+      <h4>Backend</h4><span class="sub">Supabase · 26 migrations · push function</span>
+      <ul>
+        <li>Money, stock and role changes only through server functions, never direct writes</li>
+        <li>Row-level security per role; schema changes linted and checked by advisors</li>
+        <li>Push notifications through an Edge Function bridge to FCM</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="hard">
+    <span class="label">Problems solved</span>
+    <div class="problems">
+      <div><h4>No surprises at checkout</h4><p>Stock is checked just before an order is placed. If something has just sold out, the cart updates and the customer sees why, instead of the pharmacy calling them later.</p></div>
+      <div><h4>One app for the whole team</h4><p>Admins, doctors, moderators and drivers use one app, and each person sees only their own tools. Access is also enforced on the server, not just hidden in the app.</p></div>
+      <div><h4>Every pound accounted for</h4><p>Every wallet change, points conversion and manual adjustment is recorded, so the customer and the admin can always see where a balance came from.</p></div>
+      <div><h4>Refills in one tap</h4><p>Customers keep a list of their regular medication and reorder it without searching again.</p></div>
+    </div>
+  </div>
+
+  <div class="chips">
+    <span class="chip k">Flutter</span><span class="chip k">Riverpod</span><span class="chip k">Supabase</span><span class="chip">Google Maps</span><span class="chip">mobile_scanner</span><span class="chip">Live Activities</span><span class="chip">Home widgets</span><span class="chip">easy_localization</span><span class="chip">Excel import</span><span class="chip">FCM</span><span class="chip">Melos monorepo</span>
+  </div>
+</article>
+
+<!-- CHICCO -->
+<article class="case" id="chicco" style="--c:var(--chicco)">
+  <div class="case-top">
+    <div class="case-id">
+      <div class="swatch" aria-hidden="true"></div>
+      <span class="status">In progress</span>
+      <div class="meta"><span>Food &amp; drink · Ordering</span><span>Jul 2025 → in development</span><span>658 commits</span></div>
+    </div>
+    <div>
+      <h2>Chicco</h2>
+      <p class="tag">A coffee shop's whole operation, from the custom latte to the delivery door.</p>
+      <p class="brief">Customers build their own drinks from real ingredients, pay by card, Apple Pay or wallet, and collect points. Baristas work an order queue, drivers deliver and confirm with a code, and managers see revenue, stock and expenses, all in one app that changes with the signed-in role.</p>
+    </div>
+  </div>
+
+  <div class="lanes">
+    <div class="lane">
+      <h4>Client</h4><span class="sub">Order and earn</span>
+      <ul>
+        <li>Menu by category and size; custom blends from ingredients and toppings</li>
+        <li>Sign in with Google, Apple, Facebook or phone OTP</li>
+        <li>Card payments through Paymob, Apple Pay, wallet top-up</li>
+        <li>Points and rewards, favourites, reviews, QR codes</li>
+        <li>Live order tracking and delivery address on the map</li>
+      </ul>
+    </div>
+    <div class="lane">
+      <h4>Staff roles</h4><span class="sub">Barista · delivery · manager · admin · partner</span>
+      <ul>
+        <li>Barista order queue with preparation details</li>
+        <li>Delivery assignments, navigation and code-verified hand-off</li>
+        <li>Products, ingredients, topping stock, sizes, stores, cities and delivery fees</li>
+        <li>Promo codes, segmented push campaigns, reward programmes</li>
+        <li>Revenue analytics, recurring expenses and a daily analytics digest</li>
+      </ul>
+    </div>
+    <div class="lane">
+      <h4>Backend</h4><span class="sub">Firebase · 18 Cloud Functions</span>
+      <ul>
+        <li>Paymob webhook and wallet payment functions</li>
+        <li>Points awarded only after payment is confirmed server-side</li>
+        <li>Delivery OTP verification, role claims, promo redemption</li>
+        <li>Firestore security rules, App Check</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="hard">
+    <span class="label">Problems solved</span>
+    <div class="problems">
+      <div><h4>Payments that can't be faked</h4><p>An order is only marked paid once the payment company confirms it, so nobody can trick the app into a free order. Loyalty points are only given after payment.</p></div>
+      <div><h4>Orders reach the right person</h4><p>The driver can only complete a delivery with a code from the customer.</p></div>
+      <div><h4>No ordering what's sold out</h4><p>When an ingredient runs out, the drinks that need it show as unavailable before they reach the cart.</p></div>
+      <div><h4>Six roles, one app</h4><p>Customers, baristas, drivers, managers, admins and partners all use the same app. Each sees only what their role allows, and the server checks it too.</p></div>
+    </div>
+  </div>
+
+  <div class="chips">
+    <span class="chip k">Flutter</span><span class="chip k">Riverpod</span><span class="chip k">Firebase</span><span class="chip">Cloud Functions</span><span class="chip">Firestore rules</span><span class="chip">Paymob</span><span class="chip">Apple Pay</span><span class="chip">Google Maps</span><span class="chip">fl_chart</span><span class="chip">QR</span>
+  </div>
+</article>
+
+<section id="process">
+  <div class="sec-head">
+    <span class="label">How a project runs</span>
+    <div>
+      <h2>From first call to running in production</h2>
+      <p>The order below is how every project above was built. You see working software early and every week after.</p>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step"><span class="n">Step 1</span><h3>Discover</h3><p>Who uses it, who runs it, and where money or time is lost today. Written up as screens and roles.</p></div>
+    <div class="step"><span class="n">Step 2</span><h3>Model</h3><p>Tables, permissions and the rules that must never break (no double booking, no negative stock).</p></div>
+    <div class="step"><span class="n">Step 3</span><h3>Build</h3><p>Customer and staff apps grow together on one backend, with a test build to try every week.</p></div>
+    <div class="step"><span class="n">Step 4</span><h3>Harden</h3><p>Retries, offline cases, security review, load on the busy paths, and automated tests.</p></div>
+    <div class="step"><span class="n">Step 5</span><h3>Launch &amp; run</h3><p>Store release, monitoring, force-update and feature flags, then ongoing support.</p></div>
+  </div>
+</section>
+
+<section id="standards">
+  <div class="sec-head">
+    <span class="label">What you get by default</span>
+    <div>
+      <h2>Standards that come with every build</h2>
+      <p>Each of these is already running in the projects above. They come with every new build, not as extras.</p>
+    </div>
+  </div>
+  <div class="std">
+    <div><h4>Security in the database</h4><p>Row-level security on every table; the server re-checks the role on every request.</p></div>
+    <div><h4>Separate environments</h4><p>Dev, staging and production projects and app flavours, so testing never touches real customers.</p></div>
+    <div><h4>Tested where it matters</h4><p>Unit and widget tests for app logic, database tests for policies and server functions, all in CI.</p></div>
+    <div><h4>Clean, readable code</h4><p>Layered architecture, design tokens instead of hard-coded styles, file-size limits, zero analyzer warnings.</p></div>
+    <div><h4>Arabic and English</h4><p>Right-to-left layouts and every string translated, including push notifications.</p></div>
+    <div><h4>Updates you control</h4><p>Minimum-version gate and server-side feature flags to switch features off without a store release.</p></div>
+    <div><h4>Errors you can see</h4><p>Crash and error reports per app version, failed background jobs and push deliveries surfaced to admins.</p></div>
+    <div><h4>Documented hand-over</h4><p>Architecture notes, release checklists and runbooks live in the repository you own.</p></div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="sec-head">
+    <span class="label">Tools</span>
+    <div><h2>Stack</h2></div>
+  </div>
+  <div class="stack">
+    <div><h4>Mobile</h4><ul><li>Flutter &amp; Dart</li><li>Riverpod, GoRouter</li><li>Freezed, json_serializable</li><li>Melos monorepos</li><li>iOS widgets &amp; Live Activities</li></ul></div>
+    <div><h4>Backend</h4><ul><li>Supabase (Postgres, Auth, Storage, Realtime)</li><li>Row-level security, SQL functions</li><li>Edge Functions (Deno / TypeScript)</li><li>Firebase (Firestore, Functions, FCM)</li><li>pgmq queues, pg_cron</li></ul></div>
+    <div><h4>Integrations</h4><ul><li>Paymob, Apple Pay</li><li>Google Maps, Mapbox, OSRM</li><li>Garmin, WHOOP, HealthKit</li><li>Bluetooth LE sensors</li><li>Google, Apple, Facebook sign-in</li></ul></div>
+    <div><h4>Delivery</h4><ul><li>GitHub Actions CI/CD</li><li>pgTAP, flutter_test</li><li>TestFlight &amp; Play Console releases</li><li>Remotion (video in code)</li><li>Flavours for dev, staging, prod</li></ul></div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <span class="label">Contact</span>
+  <h2 style="margin-top:14px">Get in touch</h2>
+  <div class="cgrid">
+    <div><span class="label">Email</span><div class="v">husseinhashad@gmail.com</div></div>
+    <div><span class="label">Phone / WhatsApp</span><div class="v">+20 128 712 1314</div></div>
+    <div><span class="label">GitHub</span><div class="v"><a href="https://github.com/Hussein1808" target="_blank" rel="noopener">github.com/Hussein1808</a></div></div>
+  </div>
+  <p class="pdf"><a href="Hussein-Hashad-Portfolio.pdf" download>Download this portfolio as a PDF</a></p>
+</section>
+</div>
+
+</body>
+</html>
