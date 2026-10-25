@@ -62,15 +62,20 @@ section{padding-block:72px;border-top:1px solid var(--line)}
 .footnote{font-size:12px;color:var(--muted);margin-top:10px;font-family:var(--mono)}
 
 /* product index table */
-.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
-table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
-th,td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-tr:last-child td{border-bottom:0}
-td.p{font-family:var(--display);font-weight:700;font-size:17px;white-space:nowrap}
-.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:1px}
-td a{text-decoration:none;color:inherit}
-td a:hover{text-decoration:underline}
+.tbl{border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.5;table-layout:fixed}
+.c-p{width:22%}.c-w{width:36%}.c-a{width:28%}.c-b{width:14%}
+th,td{text-align:left;padding:18px 20px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-block:12px;background:var(--tint)}
+tbody tr:last-child>*{border-bottom:0}
+tbody tr:hover{background:var(--tint)}
+th.p{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.2}
+th.p a{display:inline-flex;align-items:center;text-decoration:none;color:inherit}
+th.p a:hover{text-decoration:underline}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:10px;flex:none}
+.pmeta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:8px;padding-left:20px;font-family:var(--mono);font-weight:400;font-size:12px;color:var(--muted)}
+td .apps{display:block;font-weight:600}
+td .roles{display:block;color:var(--muted);font-size:14px;margin-top:2px}
 
 /* services */
 .services{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
@@ -108,7 +113,7 @@ td a:hover{text-decoration:underline}
 .chip.k{border-color:color-mix(in srgb,var(--c) 45%,var(--line));color:var(--c)}
 .status{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px dashed var(--muted);color:var(--ink);white-space:nowrap}
 .status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c,var(--accent))}
-td .status{margin-left:8px;vertical-align:2px;font-size:10px;padding:2px 8px}
+.pmeta .status{font-size:10px;padding:2px 8px}
 .shots{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap}
 .shots figure{margin:0;width:200px;max-width:100%}
 .shots img{display:block;width:100%;border-radius:22px;border:1px solid var(--line);background:var(--surface)}
@@ -161,6 +166,20 @@ footer{padding-block:24px 40px;border-top:1px solid var(--line);font-family:var(
   .stack{grid-template-columns:1fr 1fr}
   .std{grid-template-columns:1fr}
   .cgrid{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  table,thead,tbody,tr,th,td{display:block;width:100%}
+  colgroup,thead{display:none}
+  .tbl{border:0;background:none;display:flex;flex-direction:column;gap:12px}
+  .tbl tbody{display:flex;flex-direction:column;gap:12px}
+  tbody tr{border:1px solid var(--line);background:var(--surface);border-radius:12px;overflow:hidden}
+  tbody tr:hover{background:var(--surface)}
+  th.p{padding:16px 16px 12px;border-bottom:1px solid var(--line)}
+  td{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  td::before{content:attr(data-label);font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+  td>*{min-width:0}
+  tbody tr:last-child>th.p,tbody tr:last-child>td{border-bottom:1px solid var(--line)}
+  tbody tr>td:last-child{border-bottom:0}
 }
 @media (max-width:620px){
   .ledger{grid-template-columns:1fr 1fr}
@@ -216,12 +235,33 @@ footer{padding-block:24px 40px;border-top:1px solid var(--line);font-family:var(
   </div>
   <div class="tbl">
     <table>
-      <thead><tr><th>Product</th><th>What it does</th><th>Apps</th><th>Backend</th><th>Since</th></tr></thead>
+      <colgroup><col class="c-p"><col class="c-w"><col class="c-a"><col class="c-b"></colgroup>
+      <thead><tr><th scope="col">Product</th><th scope="col">What it does</th><th scope="col">Apps</th><th scope="col">Backend</th></tr></thead>
       <tbody>
-        <tr><td class="p"><a href="#dorey"><span class="dot" style="background:var(--dorey)"></span>Dorey</a></td><td>Queuing &amp; booking that cuts waiting time at barbershops and salons</td><td>Customer · Business (owners, managers, receptionists, admins)</td><td>Supabase</td><td class="mono">2023</td></tr>
-        <tr><td class="p"><a href="#egyruns"><span class="dot" style="background:var(--runs)"></span>EgyRuns</a></td><td>Running community: clubs, events, GPS tracking, live race-day operations</td><td>Runner · Mgmt (organisers, staff, admins)</td><td>Supabase</td><td class="mono">2026</td></tr>
-        <tr><td class="p"><a href="#sehety"><span class="dot" style="background:var(--sehety)"></span>Sehety</a><span class="status" style="--c:var(--sehety)">In progress</span></td><td>Online pharmacy with prescriptions, wallet and delivery</td><td>Customer · Mgmt (admin, doctor, moderator, driver)</td><td>Supabase</td><td class="mono">2026</td></tr>
-        <tr><td class="p"><a href="#chicco"><span class="dot" style="background:var(--chicco)"></span>Chicco</a><span class="status" style="--c:var(--chicco)">In progress</span></td><td>Coffee-shop ordering, custom drinks, loyalty and delivery</td><td>One app, six roles (client, barista, delivery, manager, admin, partner)</td><td>Firebase</td><td class="mono">2025</td></tr>
+        <tr>
+          <th scope="row" class="p"><a href="#dorey"><span class="dot" style="background:var(--dorey)"></span>Dorey</a><span class="pmeta"><span class="since">Since 2023</span></span></th>
+          <td data-label="What it does">Queuing &amp; booking that cuts waiting time at barbershops and salons</td>
+          <td data-label="Apps"><div><span class="apps">Customer · Business</span><span class="roles">Owners, managers, receptionists, admins</span></div></td>
+          <td data-label="Backend">Supabase</td>
+        </tr>
+        <tr>
+          <th scope="row" class="p"><a href="#egyruns"><span class="dot" style="background:var(--runs)"></span>EgyRuns</a><span class="pmeta"><span class="since">Since 2026</span></span></th>
+          <td data-label="What it does">Running community: clubs, events, GPS tracking and live race-day operations</td>
+          <td data-label="Apps"><div><span class="apps">Runner · Mgmt</span><span class="roles">Organisers, event staff, admins</span></div></td>
+          <td data-label="Backend">Supabase</td>
+        </tr>
+        <tr>
+          <th scope="row" class="p"><a href="#sehety"><span class="dot" style="background:var(--sehety)"></span>Sehety</a><span class="pmeta"><span class="since">Since 2026</span><span class="status" style="--c:var(--sehety)">In progress</span></span></th>
+          <td data-label="What it does">Online pharmacy with prescriptions, wallet and delivery</td>
+          <td data-label="Apps"><div><span class="apps">Customer · Mgmt</span><span class="roles">Admin, doctor, moderator, driver</span></div></td>
+          <td data-label="Backend">Supabase</td>
+        </tr>
+        <tr>
+          <th scope="row" class="p"><a href="#chicco"><span class="dot" style="background:var(--chicco)"></span>Chicco</a><span class="pmeta"><span class="since">Since 2025</span><span class="status" style="--c:var(--chicco)">In progress</span></span></th>
+          <td data-label="What it does">Coffee-shop ordering, custom drinks, loyalty and delivery</td>
+          <td data-label="Apps"><div><span class="apps">One app, six roles</span><span class="roles">Client, barista, delivery, manager, admin, partner</span></div></td>
+          <td data-label="Backend">Firebase</td>
+        </tr>
       </tbody>
     </table>
   </div>
